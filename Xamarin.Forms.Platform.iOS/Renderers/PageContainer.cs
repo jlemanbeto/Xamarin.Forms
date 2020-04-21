@@ -66,21 +66,29 @@ namespace Xamarin.Forms.Platform.iOS
 		NSObject GetAccessibilityElementAt(nint index)
 		{
 			if (AccessibilityElements == null || AccessibilityElements.Count == 0)
-				return NSNull.Null;
+				return null;
 
 			// Note: this will only be called when VoiceOver is enabled
-			return AccessibilityElements[(int)index];
+			try {
+				return AccessibilityElements[(int)index];
+			} catch (System.ArgumentOutOfRangeException _) {
+				return null;
+			} 
 		}
 
 		[Export("indexOfAccessibilityElement:")]
 		[Internals.Preserve(Conditional = true)]
-		int GetIndexOfAccessibilityElement(NSObject element)
+		nint GetIndexOfAccessibilityElement(NSObject element)
 		{
 			if (AccessibilityElements == null || AccessibilityElements.Count == 0)
-				return int.MaxValue;
+				return nint.MaxValue;
 
 			// Note: this will only be called when VoiceOver is enabled
-			return AccessibilityElements.IndexOf(element);
+			var index = AccessibilityElements.IndexOf(element);
+			if (index < 0) {
+				return nint.MaxValue;
+			}
+			return (nint)index;
 		}
 	}
 }
