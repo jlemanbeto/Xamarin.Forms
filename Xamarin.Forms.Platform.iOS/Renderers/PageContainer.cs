@@ -71,9 +71,9 @@ namespace Xamarin.Forms.Platform.iOS
 			// Note: this will only be called when VoiceOver is enabled
 			try {
 				return AccessibilityElements[(int)index];
-			} catch (System.ArgumentOutOfRangeException _) {
+			} catch (System.ArgumentOutOfRangeException) {
 				return null;
-			} 
+			}
 		}
 
 		[Export("indexOfAccessibilityElement:")]
